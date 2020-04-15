@@ -1,0 +1,11 @@
+Usage:
+
+    backends
+	   -> A backend is used to provide a Transactional Memory (TM) implementation to the benchmarks.
+	      I'm currently developing the htm-sgl-nvm backend which requires the persistent_transactions project
+
+	benchmarks
+	   -> include the different STAMP [cite] benchmarks, in folder other there is a bank benchmark
+		  
+	inputs
+	   -> the input files for some benchmarks are here (currently are not in the repository)

@@ -1,0 +1,5 @@
+CFLAGS   += -w -mhtm -DSTM -I$(STM)/ -I../lib
+CPPFLAGS := $(CFLAGS)
+LDFLAGS  += -L$(STM) -I$(STM)/ -I../lib
+LIBS     += $(CPPFLAGS) -lnorec -lm -ltcmalloc -lrt -lpthread -mcpu=power8 -mtune=power8 -fpermissive
+

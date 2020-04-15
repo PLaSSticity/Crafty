@@ -1,0 +1,27 @@
+#########################################
+### NV-HTM: README file #################
+#########################################
+
+Common code among all solutions is in:
+  ./common
+  
+Avni's PHTM solution is in:
+  ./phtm
+  
+NV-HTM is in:
+  ./nvhtm_common
+  ./nvhtm_lc   # using logical clocks
+  ./nvhtm_pc   # using physical clocks
+  
+a version that only uses HTM+SGL is in:
+  ./htm_only
+
+folder ./test has some cppunit tests used to debug the logs
+
+#########################################
+### COMPILE USING THE BASH SCRIPT #######
+#########################################
+
+The ./compile.sh uses the make to compile the different solutions,
+e.g., use "./compile.sh AVNI" to compile the PHTM solution
+

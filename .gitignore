@@ -1,0 +1,81 @@
+.DS_Store
+.idea
+*.log
+tmp/
+logs/
+stats_file.*
+
+### From https://github.com/github/gitignore/blob/master/C.gitignore
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+
+### From https://github.com/github/gitignore/blob/master/CMake.gitignore
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+
+.vscode/*
+cmake-build-debug/*
+tm-framework/benchmarks/other/stats_file
+tm-framework/benchmarks/other/bank/bank
+tm-framework/benchmarks/other/bank-fee/bank-fee
+tm-framework/benchmarks/stamp/bayes/bayes
+tm-framework/benchmarks/stamp/genome/genome
+tm-framework/benchmarks/stamp/intruder/intruder
+tm-framework/benchmarks/stamp/kmeans/kmeans
+tm-framework/benchmarks/stamp/labyrinth/labyrinth
+tm-framework/benchmarks/stamp/ssca2/ssca2
+tm-framework/benchmarks/stamp/vacation/vacation
+tm-framework/benchmarks/stamp/yada/yada
+ns_per_10_nops

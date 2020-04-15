@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "../htm-alg/include",
+                "../arch-dep/include",
+                "../nvm-emulation/include/",
+                "../nv-htm/crafty",
+                "../nv-htm/nvhtm_common",
+                "/usr/include/x86_64-linux-gnu/c++/7/32"
+            ],
+            "defines": [],
+            "compilerPath": "/home/mikebond/llvm/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,4 @@
+refactor:
+  search:   grep -iRn <key> <location>
+  replace:  sed -i -e 's/nvm_htm_tid/TM_tid_var/g' `find * -name *.cpp`
+  

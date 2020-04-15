@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "../arch-dep/include",
+                "/usr/include/x86_64-linux-gnu/c++/7/32"
+            ],
+            "defines": [],
+            "compilerPath": "/home/mikebond/llvm/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

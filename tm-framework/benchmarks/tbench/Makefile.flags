@@ -1,0 +1,156 @@
+# TODO: fix the entry point for the libs
+LIB_MIN_NVM_PATH=../../../../nvm-emulation
+NVM_HTM=../../../../nv-htm
+ARCH_DEP_PATH=../../../../arch-dep
+HTM_ALG_DEP_PATH ?=../../../../htm-alg
+DO_CHECK ?= 0
+
+#### unine-haswell2
+#TCMALLOC_LOC=~/gperftools-2.1/.libs
+#LIBS += -L $(TCMALLOC_LOC)
+####
+
+# TODO: Trying to estimate max freq from BogoMIPS as a backup, but it's not accurate
+CPU_MAX_FREQ=$(shell cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq || echo $(expr $(lscpu | sed -n 's/BogoMIPS: *\([0-9]*\)[.][0-9]*/\1/p') / 2)000)
+MAX_PHYS_THRS=$(shell cat /proc/cpuinfo | grep processor | wc -l)
+BUDGET ?= 20
+
+ifeq ($(NVM_LATENCY_RDTSCP),1)
+    DEFINES += -DNVM_LATENCY_RDTSCP=1 -DNVM_WAIT_CYCLES=$(NVM_WAIT_CYCLES)
+endif
+
+DEFINES += -DCPU_MAX_FREQ=$(CPU_MAX_FREQ) \
+    -DMAX_PHYS_THRS=$(MAX_PHYS_THRS) \
+    -DHTM_SGL_INIT_BUDGET=$(BUDGET) \
+    -DDO_CHECK=$(DO_CHECK) \
+    -DNVM_LATENCY_NS=$(NVM_LATENCY)
+
+USE_MALLOC ?= 0
+FILTER ?= 0.50
+SORT_ALG ?= 4
+
+INCLUDES_L += -I $(ARCH_DEP_PATH)/include \
+    -I $(HTM_ALG_DEP_PATH)/include -I ../lib
+
+ifeq ($(USE_MALLOC),1)
+DEFINES  += -DUSE_MALLOC
+endif
+
+ifeq ($(NDEBUG),1)
+DEFINES += -DNDEBUG=1
+endif
+
+ifeq ($(CRAFTY_STATS),1)
+DEFINES += -DCRAFTY_STATS=1
+endif
+
+ifeq ($(CRAFTY_REDO),1)
+DEFINES += -DCRAFTY_REDO=1
+endif
+
+ifeq ($(CRAFTY_VALIDATE),1)
+DEFINES += -DCRAFTY_VALIDATE=1
+endif
+
+ifeq ($(RETRY_NO_DELAY),1)
+DEFINES += -DRETRY_NO_DELAY=1
+endif
+
+ifeq ($(ROLLOVER_BITS),1)
+DEFINES += -DROLLOVER_BITS=1
+endif
+
+ifeq ($(VERBOSE),1)
+DEFINES += -DVERBOSE=1
+endif
+
+# percentage of the log to free-up
+THRESHOLD ?= 0.0
+# sleep time of the log manager (nano-seconds)
+PERIOD ?= 10
+LOG_SIZE ?= 10000
+
+USE_MIN_NVM ?= 1
+IS_BATCH ?= 0
+
+####
+DO_CHECKPOINT ?= 2
+####
+# Available checkpoints:
+#  1 - periodic
+#  2 - reactive
+#  3 - no_manager
+#  4 - wrap
+#  5 - fork
+####
+
+####
+SOLUTION ?= 3
+####
+# Available solutions:
+#  1 - HTM_ONLY
+#  2 - AVNI
+#  3 - REDO_COUNTER
+#  4 - REDO_TS
+####
+
+DEFINES += -DLOG_THRESHOLD=$(THRESHOLD) \
+  -DLOG_PERIOD=$(PERIOD) \
+  -DNVMHTM_LOG_SIZE=$(LOG_SIZE) \
+  -DSORT_ALG=$(SORT_ALG) \
+  -DLOG_FILTER_THRESHOLD=$(FILTER) \
+#
+
+ifeq ($(SOLUTION),1)
+INCLUDES_L += -I $(NVM_HTM)/htm_only
+DEFINES    += -DHTM_ONLY
+endif
+
+ifeq ($(SOLUTION),2)
+INCLUDES_L += -I $(NVM_HTM)/phtm
+DEFINES    += -DAVNI_SOL
+endif
+
+ifeq ($(SOLUTION),3)
+INCLUDES_L += -I $(NVM_HTM)/nvhtm_common
+INCLUDES_L += -I $(NVM_HTM)/nvhtm_lc
+DEFINES    += -DREDO_COUNTER -DVALIDATION=2 \
+	-DDO_CHECKPOINT=$(DO_CHECKPOINT)
+endif
+
+ifeq ($(SOLUTION),4)
+INCLUDES_L += -I $(NVM_HTM)/nvhtm_common
+INCLUDES_L += -I $(NVM_HTM)/nvhtm_pc
+DEFINES    += -DREDO_TS -DVALIDATION=3 \
+	-DDO_CHECKPOINT=$(DO_CHECKPOINT)
+endif
+
+ifeq ($(SOLUTION),5)
+INCLUDES_L += -I $(NVM_HTM)/crafty
+DEFINES    += -DCRAFTY -DIDEMPOTENT_TRANSACTIONS
+endif
+
+INCLUDES_L += -I ../lib
+INCLUDES_L += -I $(NVM_HTM)/common
+INCLUDES_L += -I $(LIB_MIN_NVM_PATH)/include
+INCLUDES_L += -I $(LIB_PMEM_PATH)/src/include
+
+LIBS += -L $(NVM_HTM) -lnh
+LIBS += -ltcmalloc
+# linkage with this lib is broken
+LIBS += -L $(HTM_ALG_DEP_PATH)/bin -l htm_sgl
+LIBS += -I $(LIB_MIN_NVM_PATH)/include -L $(LIB_MIN_NVM_PATH)/bin -l minimal_nvm
+
+CFLAGS   += $(DEFINES) $(INCLUDES_L) $(EXTRA_FLAGS) -mrtm -mno-vzeroupper
+CPPFLAGS += $(DEFINES) $(INCLUDES_L) $(EXTRA_FLAGS) -mrtm -mno-vzeroupper
+
+# the LD also needs the includes...
+LDFLAGS  += $(LIBS) -mrtm $(INCLUDES_L)
+
+ifeq ($(USE_MIN_NVM),1)
+DEFINES  += -DUSE_MIN_NVM
+endif
+
+ifeq ($(IS_BATCH),1)
+DEFINES += -DAPPLY_BATCH_TX
+endif

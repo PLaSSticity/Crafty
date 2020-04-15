@@ -1,0 +1,15 @@
+*Seer*
+USE_SEER should be enabled to enable the following ones:
+USE_TX_LOCKS: use the Transaction Locks to avoid conflict aborts
+USE_CPU_LOCKS: use the Core Locks to avoid capacity aborts
+USE_HTM_LOCKS: use HTM tx to acquire the transaction locks
+USE_GRADIENT_DESCENT: use Gradient Descent to compute the thresholds
+
+*HLE*
+USE_HLE 
+
+*SCM*
+USE_SCM
+
+*RTM*
+(define nothing, default)

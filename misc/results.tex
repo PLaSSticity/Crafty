@@ -1,0 +1,132 @@
+\documentclass[sigplan,10pt,review,anonymous]{acmart}\settopmatter{printfolios=true,printccs=false,printacmref=false}
+\usepackage{amsmath}
+\usepackage{adjustbox}	
+\usepackage{placeins}
+
+\acmConference[Submitted to PLDI'20]{ACM SIGPLAN Conference on Programming Languages}{June 2020}{London, UK}
+\acmYear{Submitted November 2019}
+\acmISBN{} % \acmISBN{978-x-xxxx-xxxx-x/YY/MM}
+\acmDOI{} % \acmDOI{10.1145/nnnnnnn.nnnnnnn}
+\startPage{1}
+
+\setcopyright{none}
+
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows, fit}
+
+\usepackage{subfig}
+
+\newcommand{\Crafty}{\crafty}
+\newcommand{\crafty}{Crafty\xspace}
+%\newcommand{\MyPara}[1]{\paragraph{#1}}
+\newcommand{\MyPara}[1]{\vspace{-.5em}\paragraph{#1}}
+\newcommand\ndundologging{nondestructive undo logging\xspace}
+\newcommand\Ndundologging{Nondestructive undo logging\xspace}
+\newcommand\NdUndoLogging{Nondestructive Undo Logging\xspace}
+
+\newcommand\phase[1]{\textsc{#1}}
+\newcommand\logp{\phase{Log}\xspace}
+\newcommand\Logp{\logp}
+\newcommand\redo{\phase{Redo}\xspace}
+\newcommand\Redo{\redo}
+\newcommand\validate{\phase{Validate}\xspace}
+\newcommand\Validate{\validate}
+
+\newcommand{\bench}[1]{\textsf{\sfsmaller#1}}
+\newcommand{\sfsmaller}{}
+\newcommand{\code}[1]{\textsf{\sfsmaller#1}}
+\newcommand{\shorttitle}{}
+\newcommand{\bankfee}{bank}
+\newcommand{\htmonly}{Non-durable}
+
+
+\begin{document}
+
+
+\begin{figure}
+    \vspace*{-1.5em}
+    \centering
+    \captionsetup[subfloat]{farskip=2pt,captionskip=1pt}
+    \subfloat[High contention]{
+        \includegraphics[width=1.1\linewidth]{throughput-bank-fee-hc}
+        \label{fig:throughput:bank-fee-hc}
+    }
+    \\
+    \subfloat[Medium contention]{
+        \includegraphics[width=1.1\linewidth]{throughput-bank-fee}
+        \label{fig:throughput:bank-fee}
+    }
+    \\
+    \subfloat[No contention]{
+        \includegraphics[width=1.1\linewidth]{throughput-bank-fee-nc}
+        \label{fig:throughput:bank-fee-nc}
+    }
+    \caption{Throughput of Crafty and competing approaches,
+    using the \bankfee microbenchmark at three contention levels.
+    Crafty generally outperforms NV-HTM and DudeTM, especially under low contention and at low thread counts.}
+    \label{fig:throughput:bank}
+\end{figure}
+
+\begin{figure}
+    \vspace*{-1.5em}
+    \centering
+    \captionsetup[subfloat]{farskip=2pt,captionskip=1pt}
+    \subfloat[Insert operations only]{
+        \includegraphics[width=\linewidth]{throughput-bplustree-wronly}
+        \label{fig:throughput:bplustree-insert}
+    }
+    \\
+    \subfloat[Lookup, insert, and remove operations]{
+        \includegraphics[width=\linewidth]{throughput-bplustree}
+        \label{fig:throughput:bplustree-mixed}
+    }
+    \caption{Throughput of \crafty and competing approaches,
+    on the B+ tree microbenchmark, for mixed operations and insert only.
+    \Crafty scales better than NV-HTM and DudeTM and has low overhead compared with \htmonly.}
+    \label{fig:throughput:bplustree}
+\end{figure}
+
+\begin{figure*}
+    \vspace*{-1.5em}
+    \centering
+    \captionsetup[subfloat]{farskip=2pt,captionskip=1pt}
+
+    \subfloat[\bench{kmeans} (high contention)]{
+        \includegraphics[width=.5\linewidth]{throughput-kmeans-high}
+        \label{fig:throughput:kmeans-high}
+    }
+    \subfloat[\bench{kmeans} (low contention)]{
+        \includegraphics[width=.5\linewidth]{throughput-kmeans-low}
+        \label{fig:throughput:kmeans-low}
+    }\\
+    \subfloat[\bench{vacation} (high contention)]{
+        \includegraphics[width=.5\linewidth]{throughput-vacation-high}
+        \label{fig:throughput:vacation-high}
+    }
+    \subfloat[\bench{vacation} (low contention)]{
+        \includegraphics[width=.5\linewidth]{throughput-vacation-low}
+        \label{fig:throughput:vacation-low}
+    }\\
+    %\vspace{-1pt}
+    \subfloat[\bench{labyrinth}]{
+        \includegraphics[width=.5\linewidth]{throughput-labyrinth}
+        \label{fig:throughput:labyrinth}
+    }
+    \subfloat[\bench{ssca2}]{
+        \includegraphics[width=.5\linewidth]{throughput-ssca2}
+        \label{fig:throughput:ssca2}
+    }\\
+    \subfloat[\bench{genome}]{
+        \includegraphics[width=.5\linewidth]{throughput-genome}
+        \label{fig:throughput:genome}
+    }
+    \subfloat[\bench{intruder}]{
+        \includegraphics[width=.5\linewidth]{throughput-intruder}
+        \label{fig:throughput:intruder}
+    }
+    \caption{Throughput of \crafty and competing approaches,
+    on the STAMP benchmarks. Crafty has low overhead and scales well at high thread counts.}
+    \label{fig:throughput:stamp}
+\end{figure*}
+
+\end{document}

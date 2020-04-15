@@ -1,0 +1,6 @@
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  message(STATUS "Set \"Debug\" version")
+else()
+  message(STATUS "Set \"Prodution\" version")
+  add_definitions(-DNDEBUG=1)
+endif ()

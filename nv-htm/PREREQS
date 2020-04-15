@@ -1,0 +1,18 @@
+In order to compile and run:
+
+- Use a TSX-enabled machine. If TSX is disabled by default:
+
+sudo wrmsr -a 0x105 0x1
+
+- Install libpmem:
+
+sudo yum install libpmem-devel.x86_64
+
+- Install libvmem:
+
+sudo yum install libvmem-devel.x86_64
+
+- Install tcmalloc:
+
+sudo yum install gperftools-devel.x86_64
+

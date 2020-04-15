@@ -1,0 +1,10 @@
+REDO and AVNI
+
+  --> interface for reads and writes
+          TM_read()
+          TM_write()
+       empty for HTM_ONLY
+
+  --> refactor from LIBHTMNVM to NH
+  
+  

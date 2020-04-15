@@ -1,0 +1,17 @@
+LIB_MIN_NVM_PATH=../../../../nvm-emulation
+NVM_HTM=../../../../nv-htm
+ARCH_DEP_PATH=../../../../arch-dep
+HTM_ALG_DEP_PATH ?=../../../../htm-alg
+STM := ../../../../tinystm/include
+PERSISTENT_TM ?= 1
+
+LIBS     += -L $(STM)/../lib -lstm -lpthread -lrt -I $(STM) -lm -ltcmalloc
+
+INCLUDES += -I $(LIB_MIN_NVM_PATH)/include -I $(STM) -I $(ARCH_DEP_PATH)/include -mrtm -I ../lib
+DEFINES  += -DPERSISTENT_TM=$(PERSISTENT_TM)
+LDFLAGS += -L $(LIB_MIN_NVM_PATH)/bin/ -lminimal_nvm
+LIBS     += -L $(LIB_MIN_NVM_PATH)/bin/ -lminimal_nvm
+
+CFLAGS     += -O0 -g $(DEFINES) $(INCLUDES)
+CPPFLAGS   += -O0 -g $(DEFINES) $(INCLUDES)
+LDFLAGS    += -g -O0 $(LIBS) $(INCLUDES)
