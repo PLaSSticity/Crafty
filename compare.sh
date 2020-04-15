@@ -2,7 +2,7 @@
 set -e
 set -o errexit -o pipefail -o nounset
 
-LOGDIR="$HOME/results"
+LOGDIR="results"
 
 OPTS=hb:p:t:r:s:dag:vm:on
 LONGOPTS=help,backend:,program:,threads:,runs:,solutions:,debug,stats,budget:,verbose,timeout:,build-only,gdb,massif,sde,show-output,experiment-name:,retry-no-delay,no-skip,nvm-latency:,log-size:,no-rollover-bits,nvm-latency-rdtscp
@@ -43,7 +43,7 @@ NVM_WAIT_CYCLES=
 
 SCRIPT=$(realpath $0)
 SCRIPTPATH=$(dirname $SCRIPT)
-LOGPATH="$SCRIPTPATH"/"$LOGDIR"
+LOGPATH="$HOME"/"$LOGDIR"
 cd "$SCRIPTPATH"
 
 usage() {
@@ -126,7 +126,7 @@ build_nvm() { # Build NVM. Daniel suggested building NVM using the same paramete
     local CRAFTY_VALIDATE=1
     if [[ "$NAME" = "Crafty-NoRedo" ]] ; then CRAFTY_REDO=0 ; fi
     if [[ "$NAME" = "Crafty-NoValidate" ]] ; then CRAFTY_VALIDATE=0 ; fi
-    make clean >& "$LOGPATH"/"$NAME.nvm.build.$RUN.log"
+    make clean >& "$LOGPATH"/"$NAME.nvm.build.$RUN.log" || true
     make SOLUTION=$1 DO_CHECKPOINT=$2 VERBOSE=${VERBOSE} LOG_SIZE=${LOG_SIZE} SORT_ALG=5 FILTER=0.50 FILTER=0.1 CACHE_ALIGN_POOL=1 NDEBUG=${NDEBUG} NVM_LATENCY=${NVM_LATENCY} NVM_LATENCY_RDTSCP=${NVM_LATENCY_RDTSCP} OPT=${OPT} CRAFTY_STATS=${STATS} CRAFTY_REDO=${CRAFTY_REDO} CRAFTY_VALIDATE=${CRAFTY_VALIDATE} ROLLOVER_BITS=${ROLLOVER_BITS} BUDGET=${BUDGET} NVM_WAIT_CYCLES=${NVM_WAIT_CYCLES} RETRY_NO_DELAY=${RETRY_NO_DELAY} >> "$LOGPATH"/"$NAME.nvm.build.$RUN.log" 2>&1
     popd >/dev/null
 }
