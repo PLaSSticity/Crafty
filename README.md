@@ -21,7 +21,7 @@ echo '#include <immintrin.h>
       int main() {_xbegin();_xend();return 0;}' | gcc -mrtm -o rtm_test -x c - && ./rtm_test && echo 'RTM supported'
 ```
 
-#### Building & running the docker image
+#### Running the docker image
 
 Using the provided Docker container is not necessary but recommended.
 If you would like to avoid using Docker, please ensure that you have
@@ -37,9 +37,14 @@ sudo apt install docker.io
 sudo systemctl start docker
 ```
 
-Now, build the docker image.
+If you downloaded the pre-built artifact image (available under Github
+releases, and Zenodo), you can directly load the docker
+image. Otherwise, you will need to build the docker image.
 
 ```
+# Load pre-built docker image
+sudo docker load -i crafty.docker
+# Or, build it yourself
 sudo docker build --tag crafty:0.1 --tag crafty:latest .
 ```
 

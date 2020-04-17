@@ -9,6 +9,7 @@ RUN apt-get update \
 
 COPY ./exparser /exparser
 COPY ./misc/parse-results.sh /bin/parse-results
+COPY ./misc/matplotlibrc /matplotlibrc
 
 RUN cd /exparser && pip3 install -r requirements.txt && pip3 install .
 RUN mkdir /results /Crafty
