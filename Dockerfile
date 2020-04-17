@@ -11,7 +11,7 @@ COPY ./exparser /exparser
 COPY ./misc/parse-results.sh /bin/parse-results
 COPY ./misc/matplotlibrc /matplotlibrc
 
-RUN cd /exparser && pip3 install -r requirements.txt && pip3 install
+RUN cd /exparser && pip3 install -r requirements.txt && pip3 install -e .
 RUN mkdir /results /Crafty
 RUN cd /bin && \
     ln -s /Crafty/compare.sh && \
