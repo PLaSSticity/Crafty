@@ -5,9 +5,11 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
-pushd /results >/dev/null
+cd /
 Crafty.py $@
+pushd /results >/dev/null
 cp /Crafty/misc/results.tex .
 cp /Crafty/misc/acmart.cls .
+rm results.pdf
 latexmk -pdf results.tex
 popd >/dev/null

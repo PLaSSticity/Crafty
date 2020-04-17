@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import exparser
 from pathlib import Path
 import scipy.stats as ss
@@ -382,7 +383,10 @@ with (OUTPUT_PATH / 'results.tex').open('w') as _output_file:
     linewidth = 0.2
     for benchmark in benchmarks:
         max_single = 0
-        baseline = (memcached_throughput if benchmark == 'memcached' else time).results['HTM-only'][benchmark]['1']['mean']
+        try:
+            baseline = (memcached_throughput if benchmark == 'memcached' else time).results['HTM-only'][benchmark]['1']['mean']
+        except TypeError:
+            continue
         if benchmark in ['bank-fee', 'bank-fee-nc', 'bank-fee-hc']:
             plt.figure(figsize=[6.4, 4.5])
         else:
